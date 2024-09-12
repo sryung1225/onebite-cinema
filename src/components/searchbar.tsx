@@ -17,7 +17,7 @@ export default function SearchBar() {
 
   const onSubmitSearch = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!search) return;
+    if (!search || q === search) return;
     router.push(`/search?q=${search}`);
   };
 
