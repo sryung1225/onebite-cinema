@@ -1,5 +1,6 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import style from "./searchbar.module.css";
 
 export default function SearchBar() {
   const router = useRouter();
@@ -21,7 +22,7 @@ export default function SearchBar() {
   };
 
   return (
-    <form onSubmit={onSubmitSearch}>
+    <form className={style.form} onSubmit={onSubmitSearch}>
       <input
         type="text"
         placeholder="검색어를 입력하세요 ..."
