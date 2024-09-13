@@ -1,0 +1,15 @@
+.header {
+  height: 70px;
+}
+
+.header > a {
+  display: inline-block;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.header h1 {
+  color: rgba(229, 9, 20);
+  font-size: 20px;
+  font-weight: 700;
+}
