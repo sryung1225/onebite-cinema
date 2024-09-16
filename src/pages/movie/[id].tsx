@@ -1,11 +1,24 @@
+import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
 import Image from "next/image";
-// import { useRouter } from "next/router";
-import movies from "@/dummy.json";
-import { MovieData } from "@/types";
+import fetchOneMovie from "@/lib/fetch-one-movie";
 
-export default function Page() {
-  // const router = useRouter();
-  // const { id } = router.query;
+export const getServerSideProps = async (
+  context: GetServerSidePropsContext
+) => {
+  const id = context.params!.id;
+  const movie = await fetchOneMovie(Number(id));
+  return {
+    props: {
+      movie,
+    },
+  };
+};
+
+export default function Page({
+  movie,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) {
+  if (!movie) return "문제가 발생했습니다. 다시 시도하세요";
+
   const {
     title,
     subTitle,
@@ -15,8 +28,7 @@ export default function Page() {
     genres,
     runtime,
     posterImgUrl,
-  }: MovieData = movies[0];
-
+  } = movie;
   return (
     <div className="flex flex-col gap-5">
       <div
