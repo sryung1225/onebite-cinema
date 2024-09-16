@@ -1,3 +1,4 @@
+import Image from "next/image";
 // import { useRouter } from "next/router";
 import movies from "@/dummy.json";
 import { MovieData } from "@/types";
@@ -22,10 +23,12 @@ export default function Page() {
         className={`relative flex justify-center p-5 bg-center bg-no-repeat bg-cover before:content-[''] before:absolute before:top-0 before:left-0 before:w-full before:h-full before:bg-black before:opacity-70 `}
         style={{ backgroundImage: `url('${posterImgUrl}')` }}
       >
-        <img
+        <Image
           src={posterImgUrl}
           alt={`영화 <${title}> 포스터`}
-          className="z-10 max-h-[350px] h-full"
+          width="300"
+          height="350"
+          className="z-10 w-auto max-h-[350px] h-full"
         />
       </div>
       <div className="flex flex-col gap-2">
