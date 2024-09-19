@@ -1,10 +1,24 @@
-// import { useRouter } from "next/router";
-import movies from "@/dummy.json";
-import { MovieData } from "@/types";
+import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
+import Image from "next/image";
+import fetchOneMovie from "@/lib/fetch-one-movie";
 
-export default function Page() {
-  // const router = useRouter();
-  // const { id } = router.query;
+export const getServerSideProps = async (
+  context: GetServerSidePropsContext
+) => {
+  const id = context.params!.id;
+  const movie = await fetchOneMovie(Number(id));
+  return {
+    props: {
+      movie,
+    },
+  };
+};
+
+export default function Page({
+  movie,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) {
+  if (!movie) return "문제가 발생했습니다. 다시 시도하세요";
+
   const {
     title,
     subTitle,
@@ -14,18 +28,19 @@ export default function Page() {
     genres,
     runtime,
     posterImgUrl,
-  }: MovieData = movies[0];
-
+  } = movie;
   return (
     <div className="flex flex-col gap-5">
       <div
         className={`relative flex justify-center p-5 bg-center bg-no-repeat bg-cover before:content-[''] before:absolute before:top-0 before:left-0 before:w-full before:h-full before:bg-black before:opacity-70 `}
         style={{ backgroundImage: `url('${posterImgUrl}')` }}
       >
-        <img
+        <Image
           src={posterImgUrl}
           alt={`영화 <${title}> 포스터`}
-          className="z-10 max-h-[350px] h-full"
+          width="300"
+          height="350"
+          className="z-10 w-auto max-h-[350px] h-full"
         />
       </div>
       <div className="flex flex-col gap-2">
