@@ -1,19 +1,16 @@
 import { GetStaticPropsContext, InferGetStaticPropsType } from "next";
 import { useRouter } from "next/router";
 import Image from "next/image";
+import fetchMovies from "@/lib/fetch-movies";
 import fetchOneMovie from "@/lib/fetch-one-movie";
 
-export const getStaticPaths = () => {
+export const getStaticPaths = async () => {
+  const movies = await fetchMovies();
   return {
-    paths: [
-      { params: { id: "1" } },
-      { params: { id: "2" } },
-      { params: { id: "3" } },
-    ],
+    paths: movies.map(({ id }) => ({
+      params: { id: id.toString() },
+    })),
     fallback: true,
-    // false: 404 NotFound
-    // blocking: SSR 방식
-    // true: SSR 방식 + 데이터가 없는 폴백 상태 페이지부터 반환
   };
 };
 
