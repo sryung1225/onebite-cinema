@@ -28,7 +28,7 @@ export default function Home({
         <h2 className="mb-0 text-lg font-bold">지금 가장 추천하는 영화</h2>
         <ul className="grid grid-cols-3 gap-2">
           {recoMovies.map((movie) => (
-            <MovieItem key={movie.id} {...movie} />
+            <MovieItem key={`recomovies-${movie.id}`} {...movie} />
           ))}
         </ul>
       </section>
@@ -36,7 +36,7 @@ export default function Home({
         <h2 className="mb-0 text-lg font-bold">등록된 모든 영화</h2>
         <ul className="grid grid-cols-5 gap-2">
           {allMovies.map((movie) => (
-            <MovieItem key={movie.id} {...movie} />
+            <MovieItem key={`allmovies-${movie.id}`} {...movie} />
           ))}
         </ul>
       </section>
