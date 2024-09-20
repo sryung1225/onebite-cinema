@@ -2,7 +2,7 @@ export default async function fetchData<T>(
   endpoint: string,
   fallback: T
 ): Promise<T> {
-  const url = `http://localhost:12345/${endpoint}`;
+  const url = `${process.env.NEXT_PUBLIC_SERVER}/${endpoint}`;
   try {
     const response = await fetch(url);
     if (!response.ok) {
