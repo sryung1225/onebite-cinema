@@ -1,10 +1,14 @@
-import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+"use client";
 
-export default function SearchBar() {
+import React, { useEffect, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+
+export default function Searchbar() {
   const router = useRouter();
   const [search, setSearch] = useState("");
-  const q = router.query.q as string;
+
+  const searchParams = useSearchParams();
+  const q = searchParams.get("q");
 
   useEffect(() => {
     setSearch(q || "");
@@ -28,6 +32,7 @@ export default function SearchBar() {
       <input
         type="text"
         placeholder="검색어를 입력하세요 ..."
+        value={search}
         onChange={onChangeSearch}
         className="flex-1 p-2 bg-black border border-white rounded text-white"
       />
