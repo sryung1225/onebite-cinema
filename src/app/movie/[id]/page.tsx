@@ -1,13 +1,19 @@
 import React from "react";
-import movies from "@/mock/movies.json";
 import Image from "next/image";
+import { MovieData } from "@/types";
 
-export default function Page({
+export default async function Page({
   params,
 }: {
   params: { id: string | string[] };
 }) {
-  const movie = movies[0];
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_SERVER}/movie/${params.id}`
+  );
+  if (!response.ok) {
+    return <div>오류가 발생했습니다...</div>;
+  }
+  const movie: MovieData = await response.json();
   return (
     <div className="flex flex-col gap-5">
       <div
