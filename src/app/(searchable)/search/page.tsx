@@ -1,12 +1,19 @@
 import React from "react";
-import movies from "@/mock/movies.json";
 import MovieItem from "@/components/movie-item";
+import { MovieData } from "@/types";
 
-export default function Page({
+export default async function Page({
   searchParams,
 }: {
   searchParams: { q?: string };
 }) {
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_SERVER}/movie/search?q=${searchParams.q || ""}`
+  );
+  if (!response.ok) {
+    return <div>오류가 발생했습니다...</div>;
+  }
+  const movies: MovieData[] = await response.json();
   return (
     <>
       {movies.length > 0 ? (
