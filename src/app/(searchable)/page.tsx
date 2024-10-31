@@ -1,5 +1,37 @@
 import MovieItem from "@/components/movie-item";
-import movies from "@/mock/movies.json";
+import { MovieData } from "@/types";
+
+async function AllMovies() {
+  const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER}/movie`);
+  if (!response.ok) {
+    return <div>오류가 발생했습니다...</div>;
+  }
+  const allMovies: MovieData[] = await response.json();
+  return (
+    <>
+      {allMovies.map((movie) => (
+        <MovieItem key={`allmovies-${movie.id}`} {...movie} />
+      ))}
+    </>
+  );
+}
+
+async function RecoMovies() {
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_SERVER}/movie/random`
+  );
+  if (!response.ok) {
+    return <div>오류가 발생했습니다...</div>;
+  }
+  const recoMovies: MovieData[] = await response.json();
+  return (
+    <>
+      {recoMovies.map((movie) => (
+        <MovieItem key={`recomovies-${movie.id}`} {...movie} />
+      ))}
+    </>
+  );
+}
 
 export default function Home() {
   return (
@@ -8,17 +40,13 @@ export default function Home() {
         <section className="mt-5">
           <h2 className="mb-2 text-2xl font-bold">지금 가장 추천하는 영화</h2>
           <ul className="grid grid-cols-3 gap-2">
-            {movies.slice(0, 3).map((movie) => (
-              <MovieItem key={`recomovies-${movie.id}`} {...movie} />
-            ))}
+            <RecoMovies />
           </ul>
         </section>
         <section className="mt-5">
           <h2 className="mb-2 text-2xl font-bold">등록된 모든 영화</h2>
           <ul className="grid grid-cols-5 gap-2">
-            {movies.map((movie) => (
-              <MovieItem key={`allmovies-${movie.id}`} {...movie} />
-            ))}
+            <AllMovies />
           </ul>
         </section>
       </div>
