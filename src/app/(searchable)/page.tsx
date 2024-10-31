@@ -1,15 +1,12 @@
 import MovieItem from "@/components/movie-item";
+import fetchData from "@/lib/fetch-data";
 import { MovieData } from "@/types";
 
 async function AllMovies() {
-  const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER}/movie`);
-  if (!response.ok) {
-    return <div>오류가 발생했습니다...</div>;
-  }
-  const allMovies: MovieData[] = await response.json();
+  const movies = await fetchData<MovieData[]>(`movie`, []);
   return (
     <>
-      {allMovies.map((movie) => (
+      {movies.map((movie) => (
         <MovieItem key={`allmovies-${movie.id}`} {...movie} />
       ))}
     </>
@@ -17,16 +14,10 @@ async function AllMovies() {
 }
 
 async function RecoMovies() {
-  const response = await fetch(
-    `${process.env.NEXT_PUBLIC_SERVER}/movie/random`
-  );
-  if (!response.ok) {
-    return <div>오류가 발생했습니다...</div>;
-  }
-  const recoMovies: MovieData[] = await response.json();
+  const movies = await fetchData<MovieData[]>(`movie/random`, []);
   return (
     <>
-      {recoMovies.map((movie) => (
+      {movies.map((movie) => (
         <MovieItem key={`recomovies-${movie.id}`} {...movie} />
       ))}
     </>
