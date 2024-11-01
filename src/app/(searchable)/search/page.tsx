@@ -1,12 +1,18 @@
 import React from "react";
-import movies from "@/mock/movies.json";
 import MovieItem from "@/components/movie-item";
+import { MovieData } from "@/types";
+import fetchData from "@/lib/fetch-data";
 
-export default function Page({
+export default async function Page({
   searchParams,
 }: {
   searchParams: { q?: string };
 }) {
+  const movies = await fetchData<MovieData[]>(
+    `movie/search?q=${searchParams.q || ""}`,
+    [],
+    "force-cache"
+  );
   return (
     <>
       {movies.length > 0 ? (
