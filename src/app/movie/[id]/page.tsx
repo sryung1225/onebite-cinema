@@ -8,7 +8,11 @@ export default async function Page({
 }: {
   params: { id: string | string[] };
 }) {
-  const movie = await fetchData<MovieData | null>(`movie/${params.id}`, null);
+  const movie = await fetchData<MovieData | null>(
+    `movie/${params.id}`,
+    null,
+    "force-cache"
+  );
   return (
     <div className="flex flex-col gap-5">
       {movie ? (

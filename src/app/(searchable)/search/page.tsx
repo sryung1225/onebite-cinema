@@ -10,7 +10,8 @@ export default async function Page({
 }) {
   const movies = await fetchData<MovieData[]>(
     `movie/search?q=${searchParams.q || ""}`,
-    []
+    [],
+    "force-cache"
   );
   return (
     <>

@@ -3,7 +3,7 @@ import fetchData from "@/lib/fetch-data";
 import { MovieData } from "@/types";
 
 async function AllMovies() {
-  const movies = await fetchData<MovieData[]>(`movie`, []);
+  const movies = await fetchData<MovieData[]>(`movie`, [], "force-cache");
   return (
     <>
       {movies.map((movie) => (
@@ -14,7 +14,9 @@ async function AllMovies() {
 }
 
 async function RecoMovies() {
-  const movies = await fetchData<MovieData[]>(`movie/random`, []);
+  const movies = await fetchData<MovieData[]>(`movie/random`, [], {
+    revalidate: 10,
+  });
   return (
     <>
       {movies.map((movie) => (
